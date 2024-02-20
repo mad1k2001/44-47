@@ -19,6 +19,8 @@
                 <th scope="col">#</th>
                 <th scope="col">Book</th>
                 <th scope="col">Author</th>
+                <th scope="col">Status</th>
+                <th scope="col">Details</th>
             </tr>
             </thead>
             <tbody>
@@ -28,8 +30,13 @@
                     <th>${book?counter}</th>
                     <td>${book.name!"Не указано"}</td>
                     <td>${book.author!"Неизвестен"}</td>
-                    <td>${book.issued!"Выдана" : "Не выдана"}</td>
-                    <td>${book.issuedTo}</td>
+                    <td><#if book.issued>
+                            Выдана
+                        <#else>
+                            Не выдана
+                        </#if>
+                    </td>
+                    <td><a href="/book/${book_index}">Details</a></td>
                 </tr>
             </#list>
 

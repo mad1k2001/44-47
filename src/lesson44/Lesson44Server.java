@@ -19,6 +19,7 @@ public class Lesson44Server extends BasicServer {
     public Lesson44Server(String host, int port) throws IOException {
         super(host, port);
         registerGet("/books", this::booksHandler);
+        registerGet("/book/{index}", this::bookDetailsHandler);
 
     }
 
@@ -26,6 +27,12 @@ public class Lesson44Server extends BasicServer {
         renderTemplate(exchange, "books.ftlh", getBooksDataModel());
     }
 
+    private void bookDetailsHandler(HttpExchange exchange) {
+        String indexStr = exchange.getRequestURI().getPath().split("/")[2];
+        int index = Integer.parseInt(indexStr);
+        BooksDataModel.Book book = getBooksDataModel().getBooks().get(index);
+        renderTemplate(exchange, "book-details.ftlh", book);
+    }
 
     private BooksDataModel getBooksDataModel() {
         return new BooksDataModel();
