@@ -20,6 +20,7 @@ public class Lesson44Server extends BasicServer {
         super(host, port);
         registerGet("/books", this::booksHandler);
         registerGet("/books/book_info", this::bookDetailsHandler);
+        registerGet("/employee", this::employeesHandler);
     }
 
     private void booksHandler(HttpExchange exchange) {
@@ -27,15 +28,23 @@ public class Lesson44Server extends BasicServer {
     }
 
     private void bookDetailsHandler(HttpExchange exchange) {
-        renderTemplate(exchange, "book_info.ftlh", getDetailBook());
+        renderTemplate(exchange, "book_info.ftlh", getDetailBookDataModel());
+    }
+
+    private void employeesHandler(HttpExchange exchange){
+        renderTemplate(exchange,"employee.ftlh", getEmployeeDataModel());
     }
 
     private BooksDataModel getBooksDataModel() {
         return new BooksDataModel();
     }
 
-    private BookInfo getDetailBook(){
-        return new BookInfo(getBooksDataModel().getBooks().get(0));
+    private BookInfo getDetailBookDataModel(){
+        return new BookInfo(getBooksDataModel().getBooks().get(4));
+    }
+
+    private EmployeeDataModel getEmployeeDataModel(){
+        return new EmployeeDataModel();
     }
 
     private static Configuration initFreeMarker() {

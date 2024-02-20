@@ -28,4 +28,12 @@ public class Employee {
     public void setIssuedBooks(List<Book> issuedBooks) {
         this.issuedBooks = issuedBooks;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
