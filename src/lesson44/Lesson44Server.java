@@ -19,7 +19,7 @@ public class Lesson44Server extends BasicServer {
     public Lesson44Server(String host, int port) throws IOException {
         super(host, port);
         registerGet("/books", this::booksHandler);
-        registerGet("/books/book-info", this::bookDetailsHandler);
+        registerGet("/books/book_info", this::bookDetailsHandler);
     }
 
     private void booksHandler(HttpExchange exchange) {
@@ -27,7 +27,7 @@ public class Lesson44Server extends BasicServer {
     }
 
     private void bookDetailsHandler(HttpExchange exchange) {
-        renderTemplate(exchange, "book-info.ftlh", getDetailBook());
+        renderTemplate(exchange, "book_info.ftlh", getDetailBook());
     }
 
     private BooksDataModel getBooksDataModel() {
