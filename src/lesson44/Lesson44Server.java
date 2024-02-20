@@ -10,6 +10,8 @@ import server.ContentType;
 import server.ResponseCodes;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Lesson44Server extends BasicServer {
     private final static Configuration freemarker = initFreeMarker();
@@ -17,11 +19,13 @@ public class Lesson44Server extends BasicServer {
     public Lesson44Server(String host, int port) throws IOException {
         super(host, port);
         registerGet("/books", this::booksHandler);
+
     }
 
     private void booksHandler(HttpExchange exchange) {
         renderTemplate(exchange, "books.ftlh", getBooksDataModel());
     }
+
 
     private BooksDataModel getBooksDataModel() {
         return new BooksDataModel();

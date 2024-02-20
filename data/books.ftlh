@@ -28,6 +28,8 @@
                     <th>${book?counter}</th>
                     <td>${book.name!"Не указано"}</td>
                     <td>${book.author!"Неизвестен"}</td>
+                    <td>${book.issued!"Выдана" : "Не выдана"}</td>
+                    <td>${book.issuedTo}</td>
                 </tr>
             </#list>
 
