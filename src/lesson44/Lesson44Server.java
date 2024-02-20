@@ -35,7 +35,7 @@ public class Lesson44Server extends BasicServer {
     }
 
     private BookInfo getDetailBook(){
-        return new BookInfo();
+        return new BookInfo(getBooksDataModel().getBooks().get(0));
     }
 
     private static Configuration initFreeMarker() {

@@ -4,13 +4,15 @@ public class Book {
     private int id;
     private String author;
     private String name;
+    private String description;
     private boolean issued;
     private String issuedTo;
 
-    public Book(int id, String author, String name) {
+    public Book(int id, String author, String name, String description) {
         this.id = id;
         this.author = author;
         this.name = name;
+        this.description = description;
         this.issued = false;
         this.issuedTo = null;
     }
@@ -41,6 +43,14 @@ public class Book {
 
     public void setIssuedTo(String issuedTo) {
         this.issuedTo = issuedTo;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
 
