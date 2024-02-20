@@ -5,13 +5,11 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import model.Book;
 import server.BasicServer;
 import server.ContentType;
 import server.ResponseCodes;
 
 import java.io.*;
-import java.util.List;
 
 public class Lesson44Server extends BasicServer {
     private final static Configuration freemarker = initFreeMarker();
