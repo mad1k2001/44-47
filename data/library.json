@@ -1,0 +1,14 @@
+{
+  "books": [
+    {"title": "Властелин Колец", "author": "Толкин", "issued": false, "issuedTo": null},
+    {"title": "Автостопом по галактике", "author": "Гарри Гаррисон", "issued": false, "issuedTo": null},
+    {"title": "Машина желаний", "author": "Братья Стругацкие", "issued": false, "issuedTo": null},
+    {"title": "Не время для драконов", "author": "Сергей Лукьяненко, Ник Перумов", "issued": false, "issuedTo": null},
+    {"title": "Гарри Поттер", "author": "Джоан Роулинг", "issued": false, "issuedTo": null}
+  ],
+  "employees": [
+    {"name": "Иванов Иван Иванович", "issuedBooks": []},
+    {"name": "Петров Петр Петрович", "issuedBooks": []},
+    {"name": "Сидоров Сидор Сидорович", "issuedBooks": []}
+  ]
+}

@@ -1,10 +1,10 @@
 package lesson44;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class BooksDataModel {
     private List<Book> books = new ArrayList<>();
+
     public BooksDataModel() {
         books.addAll(List.of(
                 new Book("Tolkin", "Властелин Колец"),
@@ -15,7 +15,7 @@ public class BooksDataModel {
         ));
     }
 
-    public List<Book> getBooks(){
+    public List<Book> getBooks() {
         return books;
     }
 

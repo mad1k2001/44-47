@@ -10,8 +10,6 @@ import server.ContentType;
 import server.ResponseCodes;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Lesson44Server extends BasicServer {
     private final static Configuration freemarker = initFreeMarker();
@@ -20,7 +18,6 @@ public class Lesson44Server extends BasicServer {
         super(host, port);
         registerGet("/books", this::booksHandler);
         registerGet("/book/{index}", this::bookDetailsHandler);
-
     }
 
     private void booksHandler(HttpExchange exchange) {
@@ -28,10 +25,7 @@ public class Lesson44Server extends BasicServer {
     }
 
     private void bookDetailsHandler(HttpExchange exchange) {
-        String indexStr = exchange.getRequestURI().getPath().split("/")[2];
-        int index = Integer.parseInt(indexStr);
-        BooksDataModel.Book book = getBooksDataModel().getBooks().get(index);
-        renderTemplate(exchange, "book-details.ftlh", book);
+
     }
 
     private BooksDataModel getBooksDataModel() {
