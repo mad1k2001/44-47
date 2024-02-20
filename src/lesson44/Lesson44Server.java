@@ -5,11 +5,13 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import model.Book;
 import server.BasicServer;
 import server.ContentType;
 import server.ResponseCodes;
 
 import java.io.*;
+import java.util.List;
 
 public class Lesson44Server extends BasicServer {
     private final static Configuration freemarker = initFreeMarker();
@@ -17,7 +19,7 @@ public class Lesson44Server extends BasicServer {
     public Lesson44Server(String host, int port) throws IOException {
         super(host, port);
         registerGet("/books", this::booksHandler);
-        registerGet("/book/{index}", this::bookDetailsHandler);
+        registerGet("/books/book-info", this::bookDetailsHandler);
     }
 
     private void booksHandler(HttpExchange exchange) {
@@ -25,11 +27,15 @@ public class Lesson44Server extends BasicServer {
     }
 
     private void bookDetailsHandler(HttpExchange exchange) {
-
+        renderTemplate(exchange, "book-info.ftlh", getDetailBook());
     }
 
     private BooksDataModel getBooksDataModel() {
         return new BooksDataModel();
+    }
+
+    private BookInfo getDetailBook(){
+        return new BookInfo();
     }
 
     private static Configuration initFreeMarker() {

@@ -36,7 +36,7 @@
                             Не выдана
                         </#if>
                     </td>
-                    <td><a href="/book/${book_index}">Details</a></td>
+                    <td><a href="/books/book_info">More</a></td>
                 </tr>
             </#list>
 

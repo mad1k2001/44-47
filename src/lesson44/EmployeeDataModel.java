@@ -1,41 +1,22 @@
 package lesson44;
 
+import model.Employee;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeDataModel {
-    private List<EmployeeData> employees;
+    private List<Employee> employees = new ArrayList<>();
 
     public EmployeeDataModel() {
-
+        employees.addAll(List.of(
+                new Employee(0,"Иванов Иван Иванович", new ArrayList<>()),
+                new Employee(1,"Петров Петр Петрович", new ArrayList<>()),
+                new Employee(2,"Сидоров Сидор Сидорович", new ArrayList<>())
+        ));
     }
 
-    public List<EmployeeData> getEmployees() {
+    public List<Employee> getEmployees() {
         return employees;
-    }
-
-    public static class EmployeeData {
-        private String name;
-        private List<Integer> issuedBooks;
-
-        public EmployeeData(String name, List<Integer> issuedBooks) {
-            this.name = name;
-            this.issuedBooks = issuedBooks;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public List<Integer> getIssuedBooks() {
-            return issuedBooks;
-        }
-
-        public void addIssuedBook(int bookId) {
-            issuedBooks.add(bookId);
-        }
-
-        public void returnBook(int bookId) {
-            issuedBooks.remove(Integer.valueOf(bookId));
-        }
     }
 }
