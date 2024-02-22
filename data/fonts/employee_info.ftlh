@@ -11,6 +11,7 @@
         <div class="card-body">
             <p class="card-text"><strong>ID:</strong> ${employee.id}</p>
             <p class="card-text"><strong>Name:</strong> ${employee.firstName} ${employee.lastName}</p>
+            <p class="card-text"><strong>Email:</strong> ${employee.email}</p>
             <h2 class="card-title">Current Books</h2>
             <ul class="list-group">
                 <#if employee.currentBooks??>

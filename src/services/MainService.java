@@ -49,4 +49,6 @@ public class MainService {
     public JournalDataModel getJournalDataModel(){
         return new JournalDataModel(journals);
     }
+
+
 }

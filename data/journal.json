@@ -33,5 +33,19 @@
     "bookId": 5,
     "status": "FREE",
     "date": 2020
+  },
+  {
+    "id": 6,
+    "employeeId": 3,
+    "bookId": 0,
+    "status": "FREE",
+    "date": 0
+  },
+  {
+    "id": 7,
+    "employeeId": 4,
+    "bookId": 5,
+    "status": "ISSUED",
+    "date": 2022
   }
 ]
