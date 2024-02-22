@@ -51,10 +51,15 @@ public class FileUtil {
        return new ArrayList<>();
     }
 
-    public static List<Journal> readJournal() throws IOException {
-        String str = Files.readString(JOURNAL_PATH);
-        return GSON.fromJson(str, new TypeToken<List<Journal>>() {
-        }.getType());
+    public static List<Journal> readJournal(){
+        try {
+            String str = Files.readString(JOURNAL_PATH);
+            return GSON.fromJson(str, new TypeToken<List<Journal>>() {
+            }.getType());
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
     public static void writeJournal(List<Journal> tasks) {

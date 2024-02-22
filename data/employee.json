@@ -5,10 +5,10 @@
     "lastName": "Doe",
     "currentBooks": {
       "id": 2,
-      "title": "To Kill a Mockingbird",
-      "description": "A novel by Harper Lee",
-      "author": "Harper Lee",
-      "data": 1960,
+      "title": "Автостопом по галактике",
+      "description": "okookokokokok",
+      "author": "Гарри Гаррисон",
+      "data": 2021,
       "status": "ISSUED",
       "employeeId": 1
     },
@@ -21,10 +21,10 @@
     "currentBooks": null,
     "pastBooks": {
       "id": 1,
-      "title": "The Great Gatsby",
-      "description": "A novel by F. Scott Fitzgerald",
-      "author": "F. Scott Fitzgerald",
-      "data": 1925,
+      "title": "Властелин Колец",
+      "description": "lalalala",
+      "author": "Tolkin",
+      "data": 2022,
       "status": "FREE",
       "employeeId": 0
     }

@@ -20,6 +20,7 @@ public class BookServer extends BasicServer {
         registerGet("/books/book_info", this::bookDetailsHandler);
         registerGet("/employee", this::employeesHandler);
         registerGet("/employee/employee_info", this::employeeDetailHandler);
+        registerGet("/journal", this::journalHandler);
     }
 
     private void booksHandler(HttpExchange exchange) {
@@ -36,6 +37,10 @@ public class BookServer extends BasicServer {
 
     private void employeeDetailHandler(HttpExchange exchange){
         renderTemplate(exchange, "employee_info.ftlh", mainService.getEmployeeInfoDataModel());
+    }
+
+    private void journalHandler(HttpExchange exchange){
+        renderTemplate(exchange, "journal.ftlh", mainService.getJournalDataModel());
     }
 
     private static Configuration initFreeMarker() {
