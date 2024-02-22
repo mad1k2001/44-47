@@ -3,7 +3,7 @@ package dto;
 import entities.Book;
 
 public class BookInfoDataModel {
-    Book book;
+    private Book book;
 
     public BookInfoDataModel(Book book){
         this.book = book;

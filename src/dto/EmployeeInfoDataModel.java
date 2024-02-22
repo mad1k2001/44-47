@@ -4,7 +4,7 @@ import entities.Book;
 import entities.Employee;
 
 public class EmployeeInfoDataModel {
-     Employee employee;
+    private Employee employee;
 
     public EmployeeInfoDataModel(Employee employee){
         this.employee = employee;
