@@ -1,0 +1,48 @@
+[
+  {
+    "id": 1,
+    "title": "Властелин Колец",
+    "description": "lalalala",
+    "author": "Tolkin",
+    "data": 2022,
+    "status": "FREE",
+    "employeeId": 0
+  },
+  {
+    "id": 2,
+    "title": "Автостопом по галактике",
+    "description": "okookokokokok",
+    "author": "Гарри Гаррисон",
+    "data": 2021,
+    "status": "ISSUED",
+    "employeeId": 1
+  },
+  {
+    "id": 3,
+    "title": "Машина желаний",
+    "description": "hahahahaha",
+    "author": "Братья Стругацких",
+    "data": 2020,
+    "status": "FREE",
+    "employeeId": 0
+  },
+  {
+    "id": 4,
+    "title": "Не время для драконов",
+    "description": "rarararara",
+    "author": "Сергей Лукьяненко",
+    "data": 2020,
+    "status": "FREE",
+    "employeeId": 0
+  },
+  {
+    "id": 5,
+    "title": "Гарри Поттер",
+    "description": "Погрузись в волшебную страну с избранным мальчиком",
+    "author": "Джоан Роулинг",
+    "data": 2020,
+    "status": "ISSUED",
+    "employeeId": 0
+  }
+]
+

@@ -1,11 +1,11 @@
-import lesson44.Lesson44Server;
+import server.BookServer;
 
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
         try {
-            new Lesson44Server("localhost", 8080).start();
+            new BookServer("localhost", 8080).start();
         } catch (IOException e) {
             e.printStackTrace();
         }

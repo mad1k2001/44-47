@@ -12,36 +12,31 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="container">
-        <table class="table table-striped">
-            <thead>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Book</th>
+            <th scope="col">Author</th>
+            <th scope="col">Status</th>
+            <th scope="col">Details</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <#list books as book>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Book</th>
-                <th scope="col">Author</th>
-                <th scope="col">Status</th>
-                <th scope="col">Details</th>
+                <th>${book?counter}</th>
+                <td>${book.name!"Не указано"}</td>
+                <td>${book.author!"Неизвестен"}</td>
+                <td>${book.status}</td>
+                <td><a href="/books/book_info">More</a></td>
             </tr>
-            </thead>
-            <tbody>
+        </#list>
 
-            <#list books as book>
-                <tr>
-                    <th>${book?counter}</th>
-                    <td>${book.name!"Не указано"}</td>
-                    <td>${book.author!"Неизвестен"}</td>
-                    <td><#if book.issued>
-                            Выдана
-                        <#else>
-                            Не выдана
-                        </#if>
-                    </td>
-                    <td><a href="/books/book_info">More</a></td>
-                </tr>
-            </#list>
-
-            </tbody>
-        </table>
-    </div>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
