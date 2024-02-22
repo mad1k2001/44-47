@@ -1,48 +1,41 @@
-package lesson44;
+package server;
 
 import com.sun.net.httpserver.HttpExchange;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import server.BasicServer;
-import server.ContentType;
-import server.ResponseCodes;
+import services.MainService;
 
 import java.io.*;
 
-public class Lesson44Server extends BasicServer {
+public class BookServer extends BasicServer {
+    private final MainService mainService;
     private final static Configuration freemarker = initFreeMarker();
 
-    public Lesson44Server(String host, int port) throws IOException {
+    public BookServer(String host, int port) throws IOException {
         super(host, port);
+        this.mainService = new MainService();
         registerGet("/books", this::booksHandler);
         registerGet("/books/book_info", this::bookDetailsHandler);
         registerGet("/employee", this::employeesHandler);
+        registerGet("/employee/employee_info", this::employeeDetailHandler);
     }
 
     private void booksHandler(HttpExchange exchange) {
-        renderTemplate(exchange, "books.ftlh", getBooksDataModel());
+        renderTemplate(exchange, "books.ftlh", mainService.getBooksDataModel());
     }
 
     private void bookDetailsHandler(HttpExchange exchange) {
-        renderTemplate(exchange, "book_info.ftlh", getDetailBookDataModel());
+        renderTemplate(exchange, "book_info.ftlh", mainService.getBookInfoDataModel());
     }
 
     private void employeesHandler(HttpExchange exchange){
-        renderTemplate(exchange,"employee.ftlh", getEmployeeDataModel());
+        renderTemplate(exchange,"employee.ftlh", mainService.getEmployeeDataModel());
     }
 
-    private BooksDataModel getBooksDataModel() {
-        return new BooksDataModel();
-    }
-
-    private BookInfo getDetailBookDataModel(){
-        return new BookInfo(getBooksDataModel().getBooks().get(4));
-    }
-
-    private EmployeeDataModel getEmployeeDataModel(){
-        return new EmployeeDataModel();
+    private void employeeDetailHandler(HttpExchange exchange){
+        renderTemplate(exchange, "employee_info.ftlh", mainService.getEmployeeInfoDataModel());
     }
 
     private static Configuration initFreeMarker() {
@@ -51,7 +44,7 @@ public class Lesson44Server extends BasicServer {
             // путь к каталогу в котором у нас хранятся шаблоны
             // это может быть совершенно другой путь, чем тот, откуда сервер берёт файлы
             // которые отправляет пользователю
-            cfg.setDirectoryForTemplateLoading(new File("data"));
+            cfg.setDirectoryForTemplateLoading(new File("data/fonts"));
 
             // прочие стандартные настройки о них читать тут
             // https://freemarker.apache.org/docs/pgui_quickstart_createconfiguration.html

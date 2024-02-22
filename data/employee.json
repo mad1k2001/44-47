@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "firstName": "John",
+    "lastName": "Doe",
+    "currentBooks": {
+      "id": 2,
+      "title": "To Kill a Mockingbird",
+      "description": "A novel by Harper Lee",
+      "author": "Harper Lee",
+      "data": 1960,
+      "status": "ISSUED",
+      "employeeId": 1
+    },
+    "pastBooks": null
+  },
+  {
+    "id": 2,
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "currentBooks": null,
+    "pastBooks": {
+      "id": 1,
+      "title": "The Great Gatsby",
+      "description": "A novel by F. Scott Fitzgerald",
+      "author": "F. Scott Fitzgerald",
+      "data": 1925,
+      "status": "FREE",
+      "employeeId": 0
+    }
+  }
+]
