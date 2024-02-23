@@ -4,59 +4,27 @@
     "firstName": "John",
     "lastName": "Doe",
     "email": "johnDoe@gmail.com",
-    "password": "johnDoe",
-    "currentBooks": {
-      "id": 2,
-      "title": "Автостопом по галактике",
-      "description": "okookokokokok",
-      "author": "Гарри Гаррисон",
-      "data": 2021,
-      "status": "ISSUED",
-      "employeeId": 1
-    },
-    "pastBooks": null
+    "password": "johnDoe"
   },
   {
     "id": 2,
     "firstName": "Jane",
     "lastName": "Smith",
     "email": "janeSmithe@gmail.com",
-    "password": "janeSmith",
-    "currentBooks": null,
-    "pastBooks": {
-      "id": 1,
-      "title": "Властелин Колец",
-      "description": "lalalala",
-      "author": "Tolkin",
-      "data": 2022,
-      "status": "FREE",
-      "employeeId": 0
-    }
+    "password": "janeSmith"
   },
   {
     "id": 3,
     "firstName": "Alice",
     "lastName": "Johnson",
     "email": "aliceJohnson@gmail.com",
-    "password": "aliceJohnson",
-    "currentBooks": null,
-    "pastBooks": null
+    "password": "aliceJohnson"
   },
   {
     "id": 4,
     "firstName": "Bob",
     "lastName": "Brown",
     "email": "bobBrown@gmail.com",
-    "password": "bobBrown",
-    "currentBooks": {
-      "id": 5,
-      "title": "Гарри Поттер",
-      "description": "Погрузись в волшебную страну с избранным мальчиком",
-      "author": "Джоан Роулинг",
-      "data": 2020,
-      "status": "ISSUED",
-      "employeeId": 4
-    },
-    "pastBooks": null
+    "password": "bobBrown"
   }
 ]

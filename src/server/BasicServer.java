@@ -140,12 +140,12 @@ public abstract class BasicServer {
         return "";
     }
 
-    protected  void redirect303(HttpExchange exchange, String route){
+    protected void redirect303(HttpExchange exchange, String path) {
         try {
-            exchange.getResponseHeaders().add("Location", route);
-            exchange.sendResponseHeaders(ResponseCodes.REDIRECT.getCode(), 0);
+            exchange.getResponseHeaders().add("Location", path);
+            exchange.sendResponseHeaders(303, 0);
             exchange.getResponseBody().close();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

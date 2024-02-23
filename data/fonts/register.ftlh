@@ -14,18 +14,26 @@
             <h2>Welcome!</h2>
         </div>
         <div class="mb-3">
-            <label for="user-email" class="form-label">Email</label>
-            <input type="email" name="email" id="user-email" class="form-control" placeholder="Your email" required autofocus>
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="firstName" name="firstName" id="firstName" class="form-control" placeholder="Your first name" required autofocus>
         </div>
         <div class="mb-3">
-            <label for="user-password" class="form-label">Password</label>
-            <input type="password" name="password" id="user-password" class="form-control" placeholder="Your password" required>
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="lastName" name="lastName" id="lastName" class="form-control" placeholder="Your last name" required autofocus>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" name="email" id="email" class="form-control" placeholder="Your email" required autofocus>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Your password" required>
         </div>
         <div class="mb-3 text-center">
             <span class="d-block">One more step to go</span>
         </div>
         <div class="mb-3 text-center">
-            <button class="btn btn-primary" type="submit">Login</button>
+            <button class="btn btn-primary" type="submit">Register</button>
         </div>
     </form>
 </main>

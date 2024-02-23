@@ -12,6 +12,7 @@ import utils.FileUtil;
 import java.io.*;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BookServer extends BasicServer {
@@ -33,17 +34,17 @@ public class BookServer extends BasicServer {
 
     private void registerHandler(HttpExchange exchange) {
         String raw = getBody(exchange);
-        Map<String,String> parsed = FileUtil.parseUrlEncoded(raw, "&");
+        Map<String, String> parsed = FileUtil.parseUrlEncoded(raw, "&");
         employee = new Employee(parsed.get("firstName"), parsed.get("lastName"), parsed.get("email"), parsed.get("password"));
-        redirect303(exchange, "/");
+        List<Employee> employees = FileUtil.readEmployee();
+        employees.add(employee);
+        FileUtil.writeEmployee(employees);
+        redirect303(exchange, "/employee");
     }
 
+
     private void registerPageHandler(HttpExchange exchange){
-        if (employee != null){
-            renderTemplate(exchange, "register.ftlh", employee);
-        }
-        Path path = makeFilePath("register.ftlh");
-        sendFile(exchange, path, ContentType.TEXT_HTML);
+        renderTemplate(exchange, "register.ftlh", employee);
     }
 
     private void booksHandler(HttpExchange exchange) {

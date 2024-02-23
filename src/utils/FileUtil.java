@@ -44,15 +44,16 @@ public class FileUtil {
         return new ArrayList<>();
     }
 
-    public static List<Employee> readEmployee()  {
-       try {
-           String str = Files.readString(EMPLOYEES_PATH);
-           return GSON.fromJson(str, new TypeToken<List<Employee>>() {
-           }.getType());
-       } catch (IOException e){
-           e.printStackTrace();
-       }
-       return new ArrayList<>();
+    public static List<Employee> readEmployee() {
+        try {
+            String str = Files.readString(EMPLOYEES_PATH);
+            List<Employee> employees = GSON.fromJson(str, new TypeToken<List<Employee>>() {}.getType());
+            Employee.updateNextId(employees);
+            return employees;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
     public static List<Journal> readJournal(){
