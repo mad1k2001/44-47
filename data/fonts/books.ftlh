@@ -28,7 +28,7 @@
         <#list books as book>
             <tr>
                 <th>${book?counter}</th>
-                <td>${book.name!"Не указано"}</td>
+                <td>${book.title!"Не указано"}</td>
                 <td>${book.author!"Неизвестен"}</td>
                 <td>${book.status}</td>
                 <td><a href="/books/book_info">More</a></td>

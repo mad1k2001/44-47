@@ -1,6 +1,9 @@
 package entities;
 
+import java.util.List;
+
 public class Employee {
+    private static int nextId = 1;
     private int id;
     private String firstName;
     private String lastName;
@@ -9,17 +12,13 @@ public class Employee {
     private Book currentBooks;
     private Book pastBooks;
 
-
-    public Employee(int id, String firstName, String lastName, String email, String password, Book currentBooks, Book pastBooks) {
-        this.id = id;
+    public Employee(String firstName, String lastName, String email, String password) {
+        this.id = nextId++;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.currentBooks = currentBooks;
-        this.pastBooks = pastBooks;
     }
-
 
     public int getId() {
         return id;
@@ -75,5 +74,12 @@ public class Employee {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public static void updateNextId(List<Employee> employees) {
+        nextId = employees.stream()
+                .mapToInt(Employee::getId)
+                .max()
+                .orElse(0) + 1;
     }
 }
