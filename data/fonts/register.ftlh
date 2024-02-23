@@ -1,22 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Login form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
+
 <body>
-<h2>Register</h2>
-<form action="/register" method="POST">
-    <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email" required><br>
-    <label for="firstName">First Name:</label><br>
-    <input type="text" id="firstName" name="firstName" required><br>
-    <label for="lastName">Last Name:</label><br>
-    <input type="text" id="lastName" name="lastName" required><br>
-    <label for="password">Password:</label><br>
-    <input type="password" id="password" name="password" required><br><br>
-    <input type="submit" value="Register">
-</form>
+<main class="container">
+    <form action="/register" method="post" class="border p-3 bg-white mx-auto mt-5" style="max-width: 400px;">
+        <div class="text-center mb-4">
+            <h2>Welcome!</h2>
+        </div>
+        <div class="mb-3">
+            <label for="user-email" class="form-label">Email</label>
+            <input type="email" name="email" id="user-email" class="form-control" placeholder="Your email" required autofocus>
+        </div>
+        <div class="mb-3">
+            <label for="user-password" class="form-label">Password</label>
+            <input type="password" name="password" id="user-password" class="form-control" placeholder="Your password" required>
+        </div>
+        <div class="mb-3 text-center">
+            <span class="d-block">One more step to go</span>
+        </div>
+        <div class="mb-3 text-center">
+            <button class="btn btn-primary" type="submit">Login</button>
+        </div>
+    </form>
+</main>
 </body>
+
 </html>

@@ -7,13 +7,17 @@ import entities.Book;
 import entities.Employee;
 import entities.Journal;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FileUtil {
 
@@ -80,5 +84,30 @@ public class FileUtil {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public static Map<String, String> parseUrlEncoded(String raw, String delimiter){
+        String[] pairs = raw.split(delimiter);
+        Stream<Map.Entry<String, String>> stream = Arrays.stream(pairs)
+                .map(FileUtil::decode)
+                .filter(Optional::isPresent)
+                .map(Optional::get);
+        return stream.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    private static Optional<Map.Entry<String, String>> decode (String kv){
+        if(!kv.contains("=")){
+            return Optional.empty();
+        }
+
+        String[] pair = kv.split("=");
+        if(pair.length != 2){
+            return Optional.empty();
+        }
+        Charset utf8 = StandardCharsets.UTF_8;
+        String key = URLDecoder.decode(pair[0], utf8);
+        String value = URLDecoder.decode(pair[1], utf8);
+
+        return Optional.of(Map.entry(key, value));
     }
 }
