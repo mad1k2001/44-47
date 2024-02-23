@@ -9,7 +9,7 @@
 
 <body>
 <main class="container">
-    <form action="/register" method="post" class="border p-3 bg-white mx-auto mt-5" style="max-width: 400px;">
+    <form action="/register" method="POST" class="border p-3 bg-white mx-auto mt-5" style="max-width: 400px;">
         <div class="text-center mb-4">
             <h2>Welcome!</h2>
         </div>

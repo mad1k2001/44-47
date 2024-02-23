@@ -67,7 +67,7 @@ public abstract class BasicServer {
     }
 
     protected final void registerPost(String route, RouteHandler handler){
-        getRoutes().put("Post" + route, handler);
+        getRoutes().put("POST " + route, handler);
     }
 
     protected final void registerFileHandler(String fileExt, ContentType type) {

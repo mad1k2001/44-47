@@ -35,13 +35,27 @@ public class BookServer extends BasicServer {
     private void registerHandler(HttpExchange exchange) {
         String raw = getBody(exchange);
         Map<String, String> parsed = FileUtil.parseUrlEncoded(raw, "&");
-        employee = new Employee(parsed.get("firstName"), parsed.get("lastName"), parsed.get("email"), parsed.get("password"));
+        String email = parsed.get("email");
+        if (email == null || email.isEmpty() || employeeExists(email)) {
+            renderTemplate(exchange, "registration_failed.ftlh", null);
+            return;
+        }
+
+        String firstName = parsed.get("firstName");
+        String lastName = parsed.get("lastName");
+        String password = parsed.get("password");
+        Employee newEmployee = new Employee(firstName, lastName, email, password);
+
         List<Employee> employees = FileUtil.readEmployee();
-        employees.add(employee);
+        employees.add(newEmployee);
         FileUtil.writeEmployee(employees);
-        redirect303(exchange, "/employee");
+        redirect303(exchange, "/");
     }
 
+    private boolean employeeExists(String email) {
+        List<Employee> employees = FileUtil.readEmployee();
+        return employees.stream().anyMatch(employee -> employee.getEmail().equals(email));
+    }
 
     private void registerPageHandler(HttpExchange exchange){
         renderTemplate(exchange, "register.ftlh", employee);
