@@ -7,14 +7,14 @@ public class Journal {
     private int employeeId;
     private int bookId;
     private Status status;
-    private int data;
+    private int date;
 
-    public Journal(int id, int employeeId, int bookId, Status status, int data) {
+    public Journal(int id, int employeeId, int bookId, Status status, int date) {
         this.id = id;
         this.employeeId = employeeId;
         this.bookId = bookId;
         this.status = status;
-        this.data = data;
+        this.date = date;
     }
 
     public int getId() {
@@ -49,11 +49,11 @@ public class Journal {
         this.status = status;
     }
 
-    public int getData() {
-        return data;
+    public int getDate() {
+        return date;
     }
 
-    public void setData(int data) {
-        this.data = data;
+    public void setDate(int data) {
+        this.date = date;
     }
 }
