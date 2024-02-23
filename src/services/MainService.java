@@ -50,5 +50,4 @@ public class MainService {
         return new JournalDataModel(journals);
     }
 
-
 }

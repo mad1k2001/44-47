@@ -9,7 +9,6 @@ public class Employee {
     private Book currentBooks;
     private Book pastBooks;
 
-
     public Employee(int id, String firstName, String lastName, String email, String password, Book currentBooks, Book pastBooks) {
         this.id = id;
         this.firstName = firstName;
@@ -19,7 +18,6 @@ public class Employee {
         this.currentBooks = currentBooks;
         this.pastBooks = pastBooks;
     }
-
 
     public int getId() {
         return id;

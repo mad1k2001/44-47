@@ -71,4 +71,14 @@ public class FileUtil {
             e.printStackTrace();
         }
     }
+
+    public static void writeEmployee(List<Employee> employees) {
+        String json = GSON.toJson(employees);
+        try {
+            Files.writeString(EMPLOYEES_PATH, json);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }
