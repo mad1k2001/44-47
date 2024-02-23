@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class BookServer extends BasicServer {
     private final MainService mainService;
@@ -26,10 +27,12 @@ public class BookServer extends BasicServer {
         registerGet("/books", this::booksHandler);
         registerGet("/books/book_info", this::bookDetailsHandler);
         registerGet("/employee", this::employeesHandler);
-        registerGet("/employee/employee_info", this::employeeDetailHandler);
+        registerGet("/employee/profile", this::employeeDetailHandler);
         registerGet("/journal", this::journalHandler);
         registerGet("/register", this::registerPageHandler);
         registerPost("/register", this::registerHandler);
+        registerGet("/login", this::loginPageHandler);
+        registerPost("/login", this::loginHandler);
     }
 
     private void registerHandler(HttpExchange exchange) {
@@ -57,6 +60,36 @@ public class BookServer extends BasicServer {
         return employees.stream().anyMatch(employee -> employee.getEmail().equals(email));
     }
 
+    private void loginHandler(HttpExchange exchange) {
+        String raw = getBody(exchange);
+        Map<String, String> parsed = FileUtil.parseUrlEncoded(raw, "&");
+        String email = parsed.get("email");
+        String password = parsed.get("password");
+
+        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
+            renderTemplate(exchange, "login_failed.ftlh", null);
+            return;
+        }
+
+        List<Employee> employees = FileUtil.readEmployee();
+        Optional<Employee> authenticatedEmployee = employees.stream()
+                .filter(employee -> employee.getEmail().equals(email) && employee.getPassword().equals(password))
+                .findFirst();
+
+        if (authenticatedEmployee.isPresent()) {
+            Map<String, Object> dataModel = new HashMap<>();
+            dataModel.put("employee", authenticatedEmployee.get());
+            renderTemplate(exchange, "profile.ftlh", dataModel);
+        } else {
+            renderTemplate(exchange, "login_failed.ftlh", null);
+        }
+    }
+
+
+    private void loginPageHandler(HttpExchange exchange){
+        renderTemplate(exchange, "login.ftlh", null);
+    }
+
     private void registerPageHandler(HttpExchange exchange){
         renderTemplate(exchange, "register.ftlh", employee);
     }
@@ -74,7 +107,7 @@ public class BookServer extends BasicServer {
     }
 
     private void employeeDetailHandler(HttpExchange exchange){
-        renderTemplate(exchange, "employee_info.ftlh", mainService.getEmployeeInfoDataModel());
+        renderTemplate(exchange, "profile.ftlh", mainService.getEmployeeInfoDataModel());
     }
 
     private void journalHandler(HttpExchange exchange){

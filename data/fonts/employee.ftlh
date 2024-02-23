@@ -12,7 +12,7 @@
     <ul class="list-group mt-3">
         <#list employees as employee>
             <li class="list-group-item">
-                <a href="/employee/employee_info?id=${employee.id}">
+                <a href="/employee/profile?id=${employee.id}">
                     ${employee.firstName} ${employee.lastName}
                 </a>
             </li>

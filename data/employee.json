@@ -33,5 +33,33 @@
     "lastName": "dsfd",
     "email": "spiderman@gmail.com",
     "password": "asdfsdf"
+  },
+  {
+    "id": 6,
+    "firstName": "ауккпукп",
+    "lastName": "аукапуап",
+    "email": "madinakg2003@gmail.com",
+    "password": "123213123"
+  },
+  {
+    "id": 7,
+    "firstName": "уукперер",
+    "lastName": "dsfg",
+    "email": "Fire@gmail.com",
+    "password": "уwt4r3"
+  },
+  {
+    "id": 8,
+    "firstName": "qwerty",
+    "lastName": "qwerty",
+    "email": "Sierra@gmail.com",
+    "password": "12324"
+  },
+  {
+    "id": 9,
+    "firstName": "екер",
+    "lastName": "пкп",
+    "email": "Siera@gmail.com",
+    "password": "8787"
   }
 ]
