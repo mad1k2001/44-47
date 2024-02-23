@@ -4,62 +4,66 @@
     "firstName": "John",
     "lastName": "Doe",
     "email": "johnDoe@gmail.com",
-    "password": "johnDoe"
+    "password": "johnDoe",
+    "currentBooks": {
+      "id": 2,
+      "title": "Автостопом по галактике",
+      "description": "okookokokokok",
+      "author": "Гарри Гаррисон",
+      "data": 2021,
+      "status": "ISSUED",
+      "employeeId": 1
+    },
+    "pastBooks": null
   },
   {
     "id": 2,
     "firstName": "Jane",
     "lastName": "Smith",
     "email": "janeSmithe@gmail.com",
-    "password": "janeSmith"
+    "password": "janeSmith",
+    "currentBooks": null,
+    "pastBooks": {
+      "id": 1,
+      "title": "Властелин Колец",
+      "description": "lalalala",
+      "author": "Tolkin",
+      "data": 2022,
+      "status": "FREE",
+      "employeeId": 0
+    }
   },
   {
     "id": 3,
     "firstName": "Alice",
     "lastName": "Johnson",
     "email": "aliceJohnson@gmail.com",
-    "password": "aliceJohnson"
+    "password": "aliceJohnson",
+    "currentBooks": null,
+    "pastBooks": null
   },
   {
     "id": 4,
     "firstName": "Bob",
     "lastName": "Brown",
     "email": "bobBrown@gmail.com",
-    "password": "bobBrown"
+    "password": "bobBrown",
+    "currentBooks": {
+      "id": 5,
+      "title": "Гарри Поттер",
+      "description": "Погрузись в волшебную страну с избранным мальчиком",
+      "author": "Джоан Роулинг",
+      "data": 2020,
+      "status": "ISSUED",
+      "employeeId": 4
+    },
+    "pastBooks": null
   },
   {
     "id": 5,
-    "firstName": "sdfsd",
-    "lastName": "dsfd",
-    "email": "spiderman@gmail.com",
-    "password": "asdfsdf"
-  },
-  {
-    "id": 6,
-    "firstName": "ауккпукп",
-    "lastName": "аукапуап",
-    "email": "madinakg2003@gmail.com",
-    "password": "123213123"
-  },
-  {
-    "id": 7,
-    "firstName": "уукперер",
-    "lastName": "dsfg",
-    "email": "Fire@gmail.com",
-    "password": "уwt4r3"
-  },
-  {
-    "id": 8,
     "firstName": "qwerty",
     "lastName": "qwerty",
-    "email": "Sierra@gmail.com",
-    "password": "12324"
-  },
-  {
-    "id": 9,
-    "firstName": "екер",
-    "lastName": "пкп",
-    "email": "Siera@gmail.com",
-    "password": "8787"
+    "email": "spiderman@gmail.com",
+    "password": "12345"
   }
 ]

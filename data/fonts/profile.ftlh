@@ -12,6 +12,21 @@
             <p class="card-text"><strong>ID:</strong> ${employee.id}</p>
             <p class="card-text"><strong>Name:</strong> ${employee.firstName} ${employee.lastName}</p>
             <p class="card-text"><strong>Email:</strong> ${employee.email}</p>
+            <h2 class="card-title">Current Books</h2>
+            <ul class="list-group">
+                <#if employee.currentBooks??>
+                    <li class="list-group-item">${employee.currentBooks.title} by ${employee.currentBooks.author}</li>
+                <#else>
+                    <li class="list-group-item">No current books</li>
+                </#if>
+            </ul>
+            <h2 class="card-title">Past Books</h2>
+            <ul class="list-group">
+                <#if employee.pastBooks??>
+                    <li class="list-group-item">${employee.pastBooks.title} by ${employee.pastBooks.author}</li>
+                <#else>
+                    <li class="list-group-item">No past books</li>
+                </#if>
             </ul>
         </div>
     </div>
