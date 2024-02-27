@@ -18,8 +18,6 @@ import java.util.stream.Collectors;
 public class BookServer extends BasicServer {
     private final MainService mainService;
     private final static Configuration freemarker = initFreeMarker();
-    private Book book;
-    private Employee employee;
 
     private final Map<String, Employee> userMap = new HashMap<>();
 
@@ -35,10 +33,8 @@ public class BookServer extends BasicServer {
         registerPost("/register", this::registerHandler);
         registerGet("/login", this::loginPageHandler);
         registerPost("/login", this::loginHandler);
-        registerGet("/books/issue", this::issueBookHandler);
         registerPost("/books/issue", this::issueBookHandler);
         registerPost("/books/return", this::returnBookHandler);
-
     }
 
     private void returnBookHandler(HttpExchange exchange) {
