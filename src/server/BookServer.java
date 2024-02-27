@@ -10,7 +10,6 @@ import services.MainService;
 import utils.FileUtil;
 
 import java.io.*;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +32,21 @@ public class BookServer extends BasicServer {
         registerPost("/register", this::registerHandler);
         registerGet("/login", this::loginPageHandler);
         registerPost("/login", this::loginHandler);
+        registerGet("/cookie", this::cookieHandler);
+    }
+
+    private void cookieHandler(HttpExchange exchange) {
+        Map<String, Object> data = new HashMap<>();
+        String name = "times";
+        String cookieStr = getCookies(exchange);
+        Map<String, String> cookies = CookieServer.parse(cookieStr);
+        String cookieValue = cookies.getOrDefault(name, "0");
+        int times = Integer.parseInt(cookieValue) + 1;
+        CookieServer response = new CookieServer(name, times);
+        setCookie(exchange, response);
+        data.put(name, times);
+        data.put("cookies", cookies);
+        renderTemplate(exchange, "cookie.ftlh", data);
     }
 
     private void registerHandler(HttpExchange exchange) {
