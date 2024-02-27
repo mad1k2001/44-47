@@ -67,6 +67,16 @@ public class FileUtil {
         return new ArrayList<>();
     }
 
+    public static void writeBook(List<Book> tasks) {
+        String json = GSON.toJson(tasks);
+        try {
+            Files.writeString(BOOKS_PATH, json);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     public static void writeJournal(List<Journal> tasks) {
         String json = GSON.toJson(tasks);
         try {
