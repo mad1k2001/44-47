@@ -172,7 +172,7 @@ public class BookServer extends BasicServer {
     }
 
     private void registerPageHandler(HttpExchange exchange){
-        renderTemplate(exchange, "register.ftlh", employee);
+        renderTemplate(exchange, "register.ftlh", null);
     }
 
     private void booksHandler(HttpExchange exchange) {
