@@ -150,6 +150,16 @@ public abstract class BasicServer {
         }
     }
 
+    protected static String getCookies(HttpExchange exchange) {
+        return exchange.getRequestHeaders()
+                .getOrDefault("Cookie", List.of(""))
+                .get(0);
+    }
+
+    protected void setCookie(HttpExchange exchange, CookieServer cookie) {
+        exchange.getResponseHeaders().add("Set-Cookie", cookie.toString());
+    }
+
     public final void start() {
         server.start();
     }

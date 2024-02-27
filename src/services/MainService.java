@@ -6,7 +6,7 @@ import entities.Employee;
 import entities.Journal;
 import utils.FileUtil;
 
-import java.util.List;
+import java.util.*;
 
 public class MainService {
     private List<Book> books;
@@ -49,5 +49,4 @@ public class MainService {
     public JournalDataModel getJournalDataModel(){
         return new JournalDataModel(journals);
     }
-
 }

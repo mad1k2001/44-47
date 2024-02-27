@@ -4,15 +4,15 @@ import enums.Status;
 
 public class Journal {
     private int id;
-    private int employeeId;
-    private int bookId;
+    private Employee employee;
+    private Book book;
     private Status status;
     private int date;
 
-    public Journal(int id, int employeeId, int bookId, Status status, int date) {
+    public Journal(int id, Employee employee, Book book, Status status, int date) {
         this.id = id;
-        this.employeeId = employeeId;
-        this.bookId = bookId;
+        this.employee = employee;
+        this.book = book;
         this.status = status;
         this.date = date;
     }
@@ -25,21 +25,6 @@ public class Journal {
         this.id = id;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public int getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
-    }
 
     public Status getStatus() {
         return status;
@@ -55,5 +40,21 @@ public class Journal {
 
     public void setDate(int data) {
         this.date = date;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
     }
 }

@@ -28,6 +28,11 @@
                     <li class="list-group-item">No past books</li>
                 </#if>
             </ul>
+            <form action="/books/issue" method="post" class="mt-3">
+                <input type="hidden" name="employeeId" value="${employee.id}">
+                <button type="submit" class="btn btn-primary">Issue Book</button>
+            </form>
+            <a href="/employee" class="btn btn-secondary mt-2">Back to Employees</a>
         </div>
     </div>
 </div>
