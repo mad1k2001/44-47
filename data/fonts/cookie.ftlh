@@ -1,33 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-        name="viewport">
-    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coockies Sample Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <div style="margin-left: 20px;">
-        <h1> Visited ${times} <#if times==1>time<#else>times</#if>
-        </h1>
+<div class="container mt-5">
+    <h1>Visited ${times} <#if times==1>time<#else>times</#if></h1>
 
-        <#if globalVisit??>
-            <h2> Global visit counter ${globalVisit} <#if globalVisit==1>time<#else>times</#if> (until server restart)
-            </h2>
-        </#if>
+    <#if globalVisit??>
+        <h2>Global visit counter ${globalVisit} <#if globalVisit==1>time<#else>times</#if> (until server restart)</h2>
+    </#if>
 
-        <#if cookies??>
-            <ul>
-                <#list cookies as name, value>
-                    <li> <b>${name}</b> - <span style="background-color: lightgray;">${value}</span> </li>
-                </#list>
-            </ul>
-        </#if>
+    <#if cookies??>
+        <ul class="list-group mt-3">
+            <#list cookies as name, value>
+                <li class="list-group-item">
+                    <b>${name}</b> - <span class="badge bg-secondary">${value}</span>
+                </li>
+            </#list>
+        </ul>
+    </#if>
+</div>
 
-    </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

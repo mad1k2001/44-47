@@ -10,15 +10,14 @@ import services.MainService;
 import utils.FileUtil;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class BookServer extends BasicServer {
     private final MainService mainService;
     private final static Configuration freemarker = initFreeMarker();
     private Employee employee;
+
+    private final Map<String, Employee> userMap = new HashMap<>();
 
     public BookServer(String host, int port) throws IOException {
         super(host, port);
@@ -32,35 +31,30 @@ public class BookServer extends BasicServer {
         registerPost("/register", this::registerHandler);
         registerGet("/login", this::loginPageHandler);
         registerPost("/login", this::loginHandler);
-        registerGet("/cookie", this::cookieHandler);
+        registerPost("/books/issue", this::issueBookHandler);
+        registerPost("/books/return", this::returnBookHandler);
     }
 
-    private void cookieHandler(HttpExchange exchange) {
-        Map<String, Object> data = new HashMap<>();
-        String name = "times";
-        String cookieStr = getCookies(exchange);
-        Map<String, String> cookies = CookieServer.parse(cookieStr);
-        String cookieValue = cookies.getOrDefault(name, "0");
-        int times = Integer.parseInt(cookieValue) + 1;
-        CookieServer response = new CookieServer(name, times);
-        setCookie(exchange, response);
-        data.put(name, times);
-        data.put("cookies", cookies);
-        renderTemplate(exchange, "cookie.ftlh", data);
+    private void returnBookHandler(HttpExchange exchange) {
+    }
+
+    private void issueBookHandler(HttpExchange exchange) {
+
     }
 
     private void registerHandler(HttpExchange exchange) {
         String raw = getBody(exchange);
         Map<String, String> parsed = FileUtil.parseUrlEncoded(raw, "&");
         String email = parsed.get("email");
-        if (email == null || email.isEmpty() || employeeExists(email)) {
+        String password = parsed.get("password");
+
+        if (email == null || email.isEmpty() || password == null || password.isEmpty() || employeeExists(email)) {
             renderTemplate(exchange, "registration_failed.ftlh", null);
             return;
         }
 
         String firstName = parsed.get("firstName");
         String lastName = parsed.get("lastName");
-        String password = parsed.get("password");
         Employee newEmployee = new Employee(firstName, lastName, email, password);
 
         List<Employee> employees = FileUtil.readEmployee();
@@ -91,6 +85,14 @@ public class BookServer extends BasicServer {
                 .findFirst();
 
         if (authenticatedEmployee.isPresent()) {
+            String userId = "user-" + authenticatedEmployee.get().getId();
+            userMap.put(userId, authenticatedEmployee.get());
+
+            CookieServer cookie = CookieServer.make("user-id", userId);
+            cookie.setMaxAge(600);
+            cookie.setHttpOnly(true);
+            setCookie(exchange, cookie);
+
             Map<String, Object> dataModel = new HashMap<>();
             dataModel.put("employee", authenticatedEmployee.get());
             renderTemplate(exchange, "profile.ftlh", dataModel);
@@ -98,7 +100,6 @@ public class BookServer extends BasicServer {
             renderTemplate(exchange, "login_failed.ftlh", null);
         }
     }
-
 
     private void loginPageHandler(HttpExchange exchange){
         renderTemplate(exchange, "login.ftlh", null);
