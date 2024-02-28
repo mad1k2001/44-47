@@ -12,8 +12,7 @@
         "description": "okookokokokok",
         "author": "Гарри Гаррисон",
         "data": 2021,
-        "status": "ISSUED",
-        "employeeId": 1
+        "status": "ISSUED"
       }
     ],
     "pastBooks": []
@@ -32,8 +31,7 @@
         "description": "lalalala",
         "author": "Tolkin",
         "data": 2022,
-        "status": "FREE",
-        "employeeId": 0
+        "status": "FREE"
       }
     ]
   },
@@ -59,8 +57,7 @@
         "description": "Погрузись в волшебную страну с избранным мальчиком",
         "author": "Джоан Роулинг",
         "data": 2020,
-        "status": "ISSUED",
-        "employeeId": 4
+        "status": "ISSUED"
       }
     ],
     "pastBooks": []
@@ -71,6 +68,24 @@
     "lastName": "qwerty",
     "email": "spiderman@gmail.com",
     "password": "12345",
+    "currentBooks": [],
+    "pastBooks": []
+  },
+  {
+    "id": 6,
+    "firstName": "uh",
+    "lastName": "dsfg",
+    "email": "Fire@gmail.com",
+    "password": "123",
+    "currentBooks": [],
+    "pastBooks": []
+  },
+  {
+    "id": 7,
+    "firstName": "wewf",
+    "lastName": "esdfwef",
+    "email": "Sierra@gmail.com",
+    "password": "111",
     "currentBooks": [],
     "pastBooks": []
   }

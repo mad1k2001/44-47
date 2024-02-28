@@ -13,7 +13,6 @@ import utils.FileUtil;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class BookServer extends BasicServer {
     private final MainService mainService;
@@ -37,11 +36,10 @@ public class BookServer extends BasicServer {
     }
 
     private void returnBookHandler(HttpExchange exchange) {
+
     }
 
-
     private void issueBookHandler(HttpExchange exchange) {
-
     }
 
     private void registerHandler(HttpExchange exchange) {
@@ -87,10 +85,10 @@ public class BookServer extends BasicServer {
                 .findFirst();
 
         if (authenticatedEmployee.isPresent()) {
-            String userId = "user-" + authenticatedEmployee.get().getId();
+            String userId = "" + authenticatedEmployee.get().getId();
             userMap.put(userId, authenticatedEmployee.get());
 
-            CookieServer cookie = CookieServer.make("user-id", userId);
+            CookieServer cookie = CookieServer.make("", userId);
             cookie.setMaxAge(600);
             cookie.setHttpOnly(true);
             setCookie(exchange, cookie);
@@ -101,6 +99,14 @@ public class BookServer extends BasicServer {
         } else {
             renderTemplate(exchange, "login_failed.ftlh", null);
         }
+    }
+
+    private Employee getUserFromCookie(HttpExchange exchange) {
+        String cookieString = getCookies(exchange);
+        Map<String, String> cookies = CookieServer.parse(cookieString);
+        String sessionId = cookies.get("user-id");
+
+        return userMap.get(sessionId);
     }
 
     private void loginPageHandler(HttpExchange exchange){

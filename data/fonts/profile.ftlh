@@ -44,6 +44,7 @@
             </ul>
             <div class="text-center">
                 <a href="/employees" class="btn btn-primary mt-2">Back to Employees</a>
+                <a href="/books" class="btn btn-secondary mt-2">View Books</a>
             </div>
         </div>
     </div>

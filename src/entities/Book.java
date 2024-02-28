@@ -9,17 +9,14 @@ public class Book {
     private String author;
     private int data;
     private Status status;
-    private int employeeId;
 
-
-    public Book(int id, String title, String description, String author, int data, Status status, int employeeId) {
+    public Book(int id, String title, String description, String author, int data, Status status) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.author = author;
         this.data = data;
         this.status = status;
-        this.employeeId = employeeId;
     }
 
     public int getId() {
@@ -70,11 +67,4 @@ public class Book {
         this.status = status;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
 }

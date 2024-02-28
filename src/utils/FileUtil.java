@@ -29,7 +29,6 @@ public class FileUtil {
 
     private static final Path BOOKS_PATH = Paths.get("data/books.json");
     private static final Path EMPLOYEES_PATH = Paths.get("data/employee.json");
-    private static final Path JOURNAL_PATH = Paths.get("data/journal.json");
 
 
     public static List<Book> readBook() {

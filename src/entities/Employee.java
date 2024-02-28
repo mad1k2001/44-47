@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Employee {
@@ -18,6 +19,8 @@ public class Employee {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.currentBooks = new ArrayList<>();
+        this.pastBooks = new ArrayList<>();
     }
 
     public int getId() {

@@ -10,6 +10,11 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <style>
+        a.link {
+            color: darkblue;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -21,10 +26,11 @@
             <th scope="col">Author</th>
             <th scope="col">Status</th>
             <th scope="col">Details</th>
+            <th scope="col">Issue</th>
+            <th scope="col">Return</th>
         </tr>
         </thead>
         <tbody>
-
         <#list books as book>
             <tr>
                 <th>${book?counter}</th>
@@ -32,9 +38,10 @@
                 <td>${book.author!"Неизвестен"}</td>
                 <td>${book.status}</td>
                 <td><a href="/books/book_info">More</a></td>
+                <td><a href="/book/issue" class="link">Issue Book</a></td>
+                <td><a href="/book/return" class="link">Return Book</a></td>
             </tr>
         </#list>
-
         </tbody>
     </table>
 </div>
