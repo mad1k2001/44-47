@@ -13,7 +13,6 @@
             <h6 class="card-subtitle mb-2 text-muted">Author: ${book.author}</h6>
             <h6 class="card-subtitle mb-2 text-muted">Year: ${book.data}</h6>
             <h6 class="card-subtitle mb-2 text-muted">Status:${book.status}</h6>
-            <h6 class="card-subtitle mb-2 text-muted">Employee ID:${book.employeeId}</h6>
             <p class="card-text">Description: ${book.description}</p>
         </div>
     </div>

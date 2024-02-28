@@ -9,8 +9,8 @@ public class Employee {
     private String lastName;
     private String email;
     private String password;
-    private Book currentBooks;
-    private Book pastBooks;
+    private List<Book> currentBooks;
+    private List<Book> pastBooks;
 
     public Employee(String firstName, String lastName, String email, String password) {
         this.id = nextId++;
@@ -44,22 +44,6 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public Book getCurrentBooks() {
-        return currentBooks;
-    }
-
-    public void setCurrentBooks(Book currentBooks) {
-        this.currentBooks = currentBooks;
-    }
-
-    public Book getPastBooks() {
-        return pastBooks;
-    }
-
-    public void setPastBooks(Book pastBooks) {
-        this.pastBooks = pastBooks;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -81,5 +65,22 @@ public class Employee {
                 .mapToInt(Employee::getId)
                 .max()
                 .orElse(0) + 1;
+    }
+
+
+    public List<Book> getPastBooks() {
+        return pastBooks;
+    }
+
+    public void setPastBooks(List<Book> pastBooks) {
+        this.pastBooks = pastBooks;
+    }
+
+    public List<Book> getCurrentBooks() {
+        return currentBooks;
+    }
+
+    public void setCurrentBooks(List<Book> currentBooks) {
+        this.currentBooks = currentBooks;
     }
 }

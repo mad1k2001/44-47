@@ -14,25 +14,37 @@
             <p class="card-text"><strong>Email:</strong> ${employee.email}</p>
             <h2 class="card-title">Current Books</h2>
             <ul class="list-group">
-                <#if employee.currentBooks??>
-                    <li class="list-group-item">${employee.currentBooks.title} by ${employee.currentBooks.author}</li>
+                <#if employee.currentBooks?size != 0>
+                    <#list employee.currentBooks as book>
+                        <li class="list-group-item">
+                            <strong>Title:</strong> ${book.title}<br>
+                            <strong>Author:</strong> ${book.author}<br>
+                            <strong>Description:</strong> ${book.description}<br>
+                            <strong>Status:</strong> ${book.status}
+                        </li>
+                    </#list>
                 <#else>
                     <li class="list-group-item">No current books</li>
                 </#if>
             </ul>
             <h2 class="card-title">Past Books</h2>
             <ul class="list-group">
-                <#if employee.pastBooks??>
-                    <li class="list-group-item">${employee.pastBooks.title} by ${employee.pastBooks.author}</li>
+                <#if employee.pastBooks?size != 0>
+                    <#list employee.pastBooks as book>
+                        <li class="list-group-item">
+                            <strong>Title:</strong> ${book.title}<br>
+                            <strong>Author:</strong> ${book.author}<br>
+                            <strong>Description:</strong> ${book.description}<br>
+                            <strong>Status:</strong> ${book.status}
+                        </li>
+                    </#list>
                 <#else>
                     <li class="list-group-item">No past books</li>
                 </#if>
             </ul>
-            <form action="/books/issue" method="post" class="mt-3">
-                <input type="hidden" name="employeeId" value="${employee.id}">
-                <button type="submit" class="btn btn-primary">Issue Book</button>
-            </form>
-            <a href="/employee" class="btn btn-secondary mt-2">Back to Employees</a>
+            <div class="text-center">
+                <a href="/employees" class="btn btn-primary mt-2">Back to Employees</a>
+            </div>
         </div>
     </div>
 </div>

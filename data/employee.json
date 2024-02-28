@@ -5,15 +5,18 @@
     "lastName": "Doe",
     "email": "johnDoe@gmail.com",
     "password": "johnDoe",
-    "currentBooks": {
-      "id": 2,
-      "title": "Автостопом по галактике",
-      "description": "okookokokokok",
-      "author": "Гарри Гаррисон",
-      "data": 2021,
-      "status": "ISSUED",
-      "employeeId": 1
-    }
+    "currentBooks": [
+      {
+        "id": 2,
+        "title": "Автостопом по галактике",
+        "description": "okookokokokok",
+        "author": "Гарри Гаррисон",
+        "data": 2021,
+        "status": "ISSUED",
+        "employeeId": 1
+      }
+    ],
+    "pastBooks": []
   },
   {
     "id": 2,
@@ -21,22 +24,27 @@
     "lastName": "Smith",
     "email": "janeSmithe@gmail.com",
     "password": "janeSmith",
-    "pastBooks": {
-      "id": 1,
-      "title": "Властелин Колец",
-      "description": "lalalala",
-      "author": "Tolkin",
-      "data": 2022,
-      "status": "FREE",
-      "employeeId": 0
-    }
+    "currentBooks": [],
+    "pastBooks": [
+      {
+        "id": 1,
+        "title": "Властелин Колец",
+        "description": "lalalala",
+        "author": "Tolkin",
+        "data": 2022,
+        "status": "FREE",
+        "employeeId": 0
+      }
+    ]
   },
   {
     "id": 3,
     "firstName": "Alice",
     "lastName": "Johnson",
     "email": "aliceJohnson@gmail.com",
-    "password": "aliceJohnson"
+    "password": "aliceJohnson",
+    "currentBooks": [],
+    "pastBooks": []
   },
   {
     "id": 4,
@@ -44,28 +52,26 @@
     "lastName": "Brown",
     "email": "bobBrown@gmail.com",
     "password": "bobBrown",
-    "currentBooks": {
-      "id": 5,
-      "title": "Гарри Поттер",
-      "description": "Погрузись в волшебную страну с избранным мальчиком",
-      "author": "Джоан Роулинг",
-      "data": 2020,
-      "status": "ISSUED",
-      "employeeId": 4
-    }
+    "currentBooks": [
+      {
+        "id": 5,
+        "title": "Гарри Поттер",
+        "description": "Погрузись в волшебную страну с избранным мальчиком",
+        "author": "Джоан Роулинг",
+        "data": 2020,
+        "status": "ISSUED",
+        "employeeId": 4
+      }
+    ],
+    "pastBooks": []
   },
   {
     "id": 5,
     "firstName": "qwerty",
     "lastName": "qwerty",
     "email": "spiderman@gmail.com",
-    "password": "12345"
-  },
-  {
-    "id": 6,
-    "firstName": "qwerty",
-    "lastName": "qwerty",
-    "email": "Fire@gmail.com",
-    "password": "123"
+    "password": "12345",
+    "currentBooks": [],
+    "pastBooks": []
   }
 ]

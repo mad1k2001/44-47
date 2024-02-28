@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import entities.Book;
 import entities.Employee;
-import entities.Journal;
 
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
@@ -56,31 +55,10 @@ public class FileUtil {
         return new ArrayList<>();
     }
 
-    public static List<Journal> readJournal(){
-        try {
-            String str = Files.readString(JOURNAL_PATH);
-            return GSON.fromJson(str, new TypeToken<List<Journal>>() {
-            }.getType());
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-        return new ArrayList<>();
-    }
-
     public static void writeBook(List<Book> tasks) {
         String json = GSON.toJson(tasks);
         try {
             Files.writeString(BOOKS_PATH, json);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    public static void writeJournal(List<Journal> tasks) {
-        String json = GSON.toJson(tasks);
-        try {
-            Files.writeString(JOURNAL_PATH, json);
         } catch (IOException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
