@@ -1,6 +1,10 @@
 package server;
 
 import com.sun.net.httpserver.HttpExchange;
+import dto.BookInfoDataModel;
+import dto.BooksDataModel;
+import dto.EmployeeDataModel;
+import dto.EmployeeInfoDataModel;
 import entities.Book;
 import entities.Employee;
 import enums.Status;
@@ -12,6 +16,7 @@ import services.MainService;
 import utils.FileUtil;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class BookServer extends BasicServer {
@@ -26,7 +31,7 @@ public class BookServer extends BasicServer {
         registerGet("/books", this::booksHandler);
         registerGet("/books/book_info", this::bookDetailsHandler);
         registerGet("/employee", this::employeesHandler);
-        registerGet("/employee/profile", this::employeeDetailHandler);
+        registerGet("/profile", this::employeeDetailHandler);
         registerGet("/register", this::registerPageHandler);
         registerPost("/register", this::registerHandler);
         registerGet("/login", this::loginPageHandler);
@@ -40,6 +45,42 @@ public class BookServer extends BasicServer {
     }
 
     private void issueBookHandler(HttpExchange exchange) {
+        Employee user = getUserFromCookie(exchange);
+        if (user == null) {
+            redirect303(exchange, "/login");
+            return;
+        }
+
+        if (user.getCurrentBooks().size() >= 2) {
+            renderTemplate(exchange, "issue_book_failed.ftlh", null);
+            return;
+        }
+
+        String raw = getBody(exchange);
+        Map<String, String> parsed = FileUtil.parseUrlEncoded(raw, "&");
+        String stringBookId = parsed.get("bookId");
+        int bookId;
+        try {
+            bookId = Integer.parseInt(stringBookId);
+        } catch (NumberFormatException e) {
+            renderTemplate(exchange, "issue_book_failed.ftlh", null);
+            return;
+        }
+
+        Optional<Book> maybeBook = mainService.getBookById(bookId);
+        if (maybeBook.isEmpty()) {
+            respond404(exchange);
+            return;
+        }
+
+        Book book = maybeBook.get();
+        if (!mainService.putBookToEmployee(user, book)) {
+            renderTemplate(exchange, "issue_book_failed.ftlh", null);
+            return;
+        }
+        Map<String, Object> dataModel = new HashMap<>();
+        dataModel.put("employee", user);
+        renderTemplate(exchange, "profile.ftlh", dataModel);
     }
 
     private void registerHandler(HttpExchange exchange) {
@@ -48,24 +89,19 @@ public class BookServer extends BasicServer {
         String email = parsed.get("email");
         String password = parsed.get("password");
 
-        if (email == null || email.isEmpty() || password == null || password.isEmpty() || employeeExists(email)) {
+        boolean isExist =  mainService.getEmployees().stream().anyMatch(employee -> employee.getEmail().equals(email));
+
+        if (email == null || email.isEmpty() || password == null || password.isEmpty() || isExist) {
             renderTemplate(exchange, "registration_failed.ftlh", null);
             return;
         }
 
         String firstName = parsed.get("firstName");
         String lastName = parsed.get("lastName");
+
         Employee newEmployee = new Employee(firstName, lastName, email, password);
-
-        List<Employee> employees = FileUtil.readEmployee();
-        employees.add(newEmployee);
-        FileUtil.writeEmployee(employees);
+        mainService.registerUser(newEmployee);
         redirect303(exchange, "/");
-    }
-
-    private boolean employeeExists(String email) {
-        List<Employee> employees = FileUtil.readEmployee();
-        return employees.stream().anyMatch(employee -> employee.getEmail().equals(email));
     }
 
     private void loginHandler(HttpExchange exchange) {
@@ -79,8 +115,7 @@ public class BookServer extends BasicServer {
             return;
         }
 
-        List<Employee> employees = FileUtil.readEmployee();
-        Optional<Employee> authenticatedEmployee = employees.stream()
+        Optional<Employee> authenticatedEmployee = mainService.getEmployees().stream()
                 .filter(employee -> employee.getEmail().equals(email) && employee.getPassword().equals(password))
                 .findFirst();
 
@@ -88,7 +123,7 @@ public class BookServer extends BasicServer {
             String userId = "" + authenticatedEmployee.get().getId();
             userMap.put(userId, authenticatedEmployee.get());
 
-            CookieServer cookie = CookieServer.make("", userId);
+            CookieServer cookie = CookieServer.make("user", userId);
             cookie.setMaxAge(600);
             cookie.setHttpOnly(true);
             setCookie(exchange, cookie);
@@ -104,7 +139,7 @@ public class BookServer extends BasicServer {
     private Employee getUserFromCookie(HttpExchange exchange) {
         String cookieString = getCookies(exchange);
         Map<String, String> cookies = CookieServer.parse(cookieString);
-        String sessionId = cookies.get("user-id");
+        String sessionId = cookies.get("user");
 
         return userMap.get(sessionId);
     }
@@ -118,20 +153,48 @@ public class BookServer extends BasicServer {
     }
 
     private void booksHandler(HttpExchange exchange) {
-        renderTemplate(exchange, "books.ftlh", mainService.getBooksDataModel());
-    }
-
-    private void bookDetailsHandler(HttpExchange exchange) {
-        renderTemplate(exchange, "book_info.ftlh", mainService.getBookInfoDataModel());
+        var model = new BooksDataModel(FileUtil.readBook());
+        renderTemplate(exchange, "books.ftlh", model);
     }
 
     private void employeesHandler(HttpExchange exchange){
-        renderTemplate(exchange,"employee.ftlh", mainService.getEmployeeDataModel());
+        var model = new EmployeeDataModel(FileUtil.readEmployee());
+        renderTemplate(exchange,"employee.ftlh",model);
     }
 
-    private void employeeDetailHandler(HttpExchange exchange){
-        renderTemplate(exchange, "profile.ftlh", mainService.getEmployeeInfoDataModel());
+    private void bookDetailsHandler(HttpExchange exchange) {
+        String query = exchange.getRequestURI().getQuery();
+        if (query != null && query.startsWith("id=")) {
+            try {
+                int bookId = Integer.parseInt(query.substring(3));
+                BookInfoDataModel dataModel = mainService.getBookInfoDataModel(bookId);
+                if (dataModel != null) {
+                    renderTemplate(exchange, "book_info.ftlh", dataModel);
+                    return;
+                }
+            } catch (NumberFormatException ignored) {
+            }
+        }
+        respond404(exchange);
     }
+
+    private void employeeDetailHandler(HttpExchange exchange) {
+        String query = exchange.getRequestURI().getQuery();
+        if (query != null && query.startsWith("id=")) {
+            try {
+                int employeeId = Integer.parseInt(query.substring(3));
+                EmployeeInfoDataModel dataModel = mainService.getEmployeeInfoDataModel(employeeId);
+                if (dataModel != null) {
+                    renderTemplate(exchange, "profile.ftlh", dataModel);
+                    return;
+                }
+            } catch (NumberFormatException ignored) {
+            }
+        }
+
+        respond404(exchange);
+    }
+
 
     private static Configuration initFreeMarker() {
         try {

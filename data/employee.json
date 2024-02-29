@@ -5,16 +5,7 @@
     "lastName": "Doe",
     "email": "johnDoe@gmail.com",
     "password": "johnDoe",
-    "currentBooks": [
-      {
-        "id": 2,
-        "title": "Автостопом по галактике",
-        "description": "okookokokokok",
-        "author": "Гарри Гаррисон",
-        "data": 2021,
-        "status": "ISSUED"
-      }
-    ],
+    "currentBooks": [],
     "pastBooks": []
   },
   {
@@ -50,16 +41,7 @@
     "lastName": "Brown",
     "email": "bobBrown@gmail.com",
     "password": "bobBrown",
-    "currentBooks": [
-      {
-        "id": 5,
-        "title": "Гарри Поттер",
-        "description": "Погрузись в волшебную страну с избранным мальчиком",
-        "author": "Джоан Роулинг",
-        "data": 2020,
-        "status": "ISSUED"
-      }
-    ],
+    "currentBooks": [],
     "pastBooks": []
   },
   {
@@ -68,7 +50,16 @@
     "lastName": "qwerty",
     "email": "spiderman@gmail.com",
     "password": "12345",
-    "currentBooks": [],
+    "currentBooks": [
+      {
+        "id": 3,
+        "title": "Машина желаний",
+        "description": "hahahahaha",
+        "author": "Братья Стругацких",
+        "data": 2020,
+        "status": "ISSUED"
+      }
+    ],
     "pastBooks": []
   },
   {
@@ -77,7 +68,24 @@
     "lastName": "dsfg",
     "email": "Fire@gmail.com",
     "password": "123",
-    "currentBooks": [],
+    "currentBooks": [
+      {
+        "id": 1,
+        "title": "Властелин Колец",
+        "description": "lalalala",
+        "author": "Tolkin",
+        "data": 2022,
+        "status": "ISSUED"
+      },
+      {
+        "id": 2,
+        "title": "Автостопом по галактике",
+        "description": "okookokokokok",
+        "author": "Гарри Гаррисон",
+        "data": 2021,
+        "status": "ISSUED"
+      }
+    ],
     "pastBooks": []
   },
   {
