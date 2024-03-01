@@ -9,14 +9,17 @@ public class Book {
     private String author;
     private int data;
     private Status status;
+    private String imageUrl;
 
-    public Book(int id, String title, String description, String author, int data, Status status) {
+
+    public Book(int id, String title, String description, String author, int data, Status status, String imageUrl) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.author = author;
         this.data = data;
         this.status = status;
+        this.imageUrl = imageUrl;
     }
 
     public int getId() {
@@ -67,4 +70,11 @@ public class Book {
         this.status = status;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }
