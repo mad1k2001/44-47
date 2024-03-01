@@ -50,6 +50,21 @@ public class MainService {
         return true;
     }
 
+    public boolean returnBookFromEmployee(Employee employee, Book book) {
+        if (!employee.getCurrentBooks().contains(book)) {
+            return false;
+        }
+        employee.getCurrentBooks().remove(book);
+        employee.getPastBooks().add(book);
+
+        book.setStatus(Status.FREE);
+
+        updateEmployeeInList(employee);
+        updateBookInList(book);
+
+        return true;
+    }
+
     public void registerUser(Employee user) {
         employees.add(user);
         FileUtil.writeEmployee(employees);

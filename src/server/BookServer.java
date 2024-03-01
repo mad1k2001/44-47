@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class BookServer extends BasicServer {
-    private final MainService mainService;
+    private MainService mainService;
     private final static Configuration freemarker = initFreeMarker();
 
     private final Map<String, Employee> userMap = new HashMap<>();
@@ -41,7 +41,38 @@ public class BookServer extends BasicServer {
     }
 
     private void returnBookHandler(HttpExchange exchange) {
+        Employee user = getUserFromCookie(exchange);
+        if (user == null) {
+            redirect303(exchange, "/login");
+            return;
+        }
 
+        String raw = getBody(exchange);
+        Map<String, String> parsed = FileUtil.parseUrlEncoded(raw, "&");
+        String stringBookId = parsed.get("bookId");
+        int bookId;
+        try {
+            bookId = Integer.parseInt(stringBookId);
+        } catch (NumberFormatException e) {
+            renderTemplate(exchange, "return_book_failed.ftlh", null);
+            return;
+        }
+
+        Optional<Book> maybeBook = mainService.getBookById(bookId);
+        if (maybeBook.isEmpty()) {
+            respond404(exchange);
+            return;
+        }
+
+        Book book = maybeBook.get();
+        if (!mainService.returnBookFromEmployee(user, book)) {
+            renderTemplate(exchange, "return_book_failed.ftlh", null);
+            return;
+        }
+
+        Map<String, Object> dataModel = new HashMap<>();
+        dataModel.put("employee", user);
+        renderTemplate(exchange, "profile.ftlh", dataModel);
     }
 
     private void issueBookHandler(HttpExchange exchange) {
@@ -89,7 +120,7 @@ public class BookServer extends BasicServer {
         String email = parsed.get("email");
         String password = parsed.get("password");
 
-        boolean isExist =  mainService.getEmployees().stream().anyMatch(employee -> employee.getEmail().equals(email));
+        boolean isExist = mainService.getEmployees().stream().anyMatch(employee -> employee.getEmail().equals(email));
 
         if (email == null || email.isEmpty() || password == null || password.isEmpty() || isExist) {
             renderTemplate(exchange, "registration_failed.ftlh", null);
@@ -144,11 +175,11 @@ public class BookServer extends BasicServer {
         return userMap.get(sessionId);
     }
 
-    private void loginPageHandler(HttpExchange exchange){
+    private void loginPageHandler(HttpExchange exchange) {
         renderTemplate(exchange, "login.ftlh", null);
     }
 
-    private void registerPageHandler(HttpExchange exchange){
+    private void registerPageHandler(HttpExchange exchange) {
         renderTemplate(exchange, "register.ftlh", null);
     }
 
@@ -157,9 +188,9 @@ public class BookServer extends BasicServer {
         renderTemplate(exchange, "books.ftlh", model);
     }
 
-    private void employeesHandler(HttpExchange exchange){
+    private void employeesHandler(HttpExchange exchange) {
         var model = new EmployeeDataModel(FileUtil.readEmployee());
-        renderTemplate(exchange,"employee.ftlh",model);
+        renderTemplate(exchange, "employee.ftlh", model);
     }
 
     private void bookDetailsHandler(HttpExchange exchange) {
@@ -188,10 +219,10 @@ public class BookServer extends BasicServer {
                     renderTemplate(exchange, "profile.ftlh", dataModel);
                     return;
                 }
-            } catch (NumberFormatException ignored) {
+            } catch (NumberFormatException e) {
+
             }
         }
-
         respond404(exchange);
     }
 

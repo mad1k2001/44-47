@@ -12,15 +12,22 @@
             <h5 class="card-title">Title: ${book.title}</h5>
             <h6 class="card-subtitle mb-2 text-muted">Author: ${book.author}</h6>
             <h6 class="card-subtitle mb-2 text-muted">Year: ${book.data}</h6>
-            <h6 class="card-subtitle mb-2 text-muted">Status:${book.status}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">Status: ${book.status}</h6>
             <p class="card-text">Description: ${book.description}</p>
-            <form action="/books/issue" method="POST">
-                <input type="hidden" name="bookId" value=${book.id}>
-                <button type="submit">Issue Book</button>
-            </form>
+            <#if book.status != "ISSUED">
+                <form action="/books/issue" method="POST">
+                    <input type="hidden" name="bookId" value="${book.id}">
+                    <button type="submit" class="btn badge-dark mt-2">Issue Book</button>
+                </form>
+            <#else>
+                <form action="/books/return" method="POST">
+                    <input type="hidden" name="bookId" value="${book.id}">
+                    <button type="submit" class="btn badge-dark mt-2">Return Book: ${book.title}</button>
+                </form>
+            </#if>
         </div>
     </div>
-</div>ъ
+</div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
