@@ -9,17 +9,17 @@ public class Book {
     private String author;
     private int data;
     private Status status;
-    private int employeeId;
+    private String imageUrl;
 
 
-    public Book(int id, String title, String description, String author, int data, Status status, int employeeId) {
+    public Book(int id, String title, String description, String author, int data, Status status, String imageUrl) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.author = author;
         this.data = data;
         this.status = status;
-        this.employeeId = employeeId;
+        this.imageUrl = imageUrl;
     }
 
     public int getId() {
@@ -70,11 +70,11 @@ public class Book {
         this.status = status;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

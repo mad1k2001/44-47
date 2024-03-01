@@ -5,15 +5,8 @@
     "lastName": "Doe",
     "email": "johnDoe@gmail.com",
     "password": "johnDoe",
-    "currentBooks": {
-      "id": 2,
-      "title": "Автостопом по галактике",
-      "description": "okookokokokok",
-      "author": "Гарри Гаррисон",
-      "data": 2021,
-      "status": "ISSUED",
-      "employeeId": 1
-    }
+    "currentBooks": [],
+    "pastBooks": []
   },
   {
     "id": 2,
@@ -21,22 +14,17 @@
     "lastName": "Smith",
     "email": "janeSmithe@gmail.com",
     "password": "janeSmith",
-    "pastBooks": {
-      "id": 1,
-      "title": "Властелин Колец",
-      "description": "lalalala",
-      "author": "Tolkin",
-      "data": 2022,
-      "status": "FREE",
-      "employeeId": 0
-    }
+    "currentBooks": [],
+    "pastBooks": []
   },
   {
     "id": 3,
     "firstName": "Alice",
     "lastName": "Johnson",
     "email": "aliceJohnson@gmail.com",
-    "password": "aliceJohnson"
+    "password": "aliceJohnson",
+    "currentBooks": [],
+    "pastBooks": []
   },
   {
     "id": 4,
@@ -44,28 +32,62 @@
     "lastName": "Brown",
     "email": "bobBrown@gmail.com",
     "password": "bobBrown",
-    "currentBooks": {
-      "id": 5,
-      "title": "Гарри Поттер",
-      "description": "Погрузись в волшебную страну с избранным мальчиком",
-      "author": "Джоан Роулинг",
-      "data": 2020,
-      "status": "ISSUED",
-      "employeeId": 4
-    }
+    "currentBooks": [],
+    "pastBooks": []
   },
   {
     "id": 5,
     "firstName": "qwerty",
     "lastName": "qwerty",
     "email": "spiderman@gmail.com",
-    "password": "12345"
+    "password": "12345",
+    "currentBooks": [],
+    "pastBooks": []
   },
   {
     "id": 6,
-    "firstName": "qwerty",
-    "lastName": "qwerty",
+    "firstName": "uh",
+    "lastName": "dsfg",
     "email": "Fire@gmail.com",
-    "password": "123"
+    "password": "123",
+    "currentBooks": [],
+    "pastBooks": []
+  },
+  {
+    "id": 7,
+    "firstName": "wewf",
+    "lastName": "esdfwef",
+    "email": "Sierra@gmail.com",
+    "password": "111",
+    "currentBooks": [],
+    "pastBooks": []
+  },
+  {
+    "id": 8,
+    "firstName": "qwerty",
+    "lastName": "kjhu",
+    "email": "a@a",
+    "password": "a@a",
+    "currentBooks": [],
+    "pastBooks": [
+      {
+        "id": 1,
+        "title": "Властелин Колец",
+        "description": "Аннотация: «Властелин Колец» Джона Толкина повествует о Великой войне за Кольцо, о войне, длившейся не одну тысячу лет. Овладевший Кольцом получает власть над всем живым и мертвым, но при этом должен служить Злу! Юному хоббиту Фродо выпадает участь уничтожить Кольцо.",
+        "author": "Tolkin",
+        "data": 2022,
+        "status": "FREE",
+        "imageUrl": "https://i.pinimg.com/564x/36/4f/98/364f98426c440bf5ee029ea86fd54d15.jpg"
+      },
+      {
+        "id": 5,
+        "title": "Гарри Поттер и философский камень",
+        "description": "Книга, покорившая мир, эталон литературы для читателей всех возрастов, синоним успеха. Книга, сделавшая Джоан Роулинг самым читаемым писателем современности. Книга, ставшая культовой уже для нескольких поколений. «Гарри Поттер и Философский камень» - история начинается.",
+        "author": "Джоан Роулинг",
+        "data": 2020,
+        "status": "FREE",
+        "imageUrl": "https://i.pinimg.com/474x/4d/d3/93/4dd3935b607e3dd114ab35c8ca445e06.jpg"
+      }
+    ]
   }
 ]

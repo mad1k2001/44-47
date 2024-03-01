@@ -1,6 +1,10 @@
 package server;
 
 import com.sun.net.httpserver.HttpExchange;
+import dto.BookInfoDataModel;
+import dto.BooksDataModel;
+import dto.EmployeeDataModel;
+import dto.EmployeeInfoDataModel;
 import entities.Book;
 import entities.Employee;
 import enums.Status;
@@ -12,11 +16,11 @@ import services.MainService;
 import utils.FileUtil;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class BookServer extends BasicServer {
-    private final MainService mainService;
+    private MainService mainService;
     private final static Configuration freemarker = initFreeMarker();
 
     private final Map<String, Employee> userMap = new HashMap<>();
@@ -27,86 +31,64 @@ public class BookServer extends BasicServer {
         registerGet("/books", this::booksHandler);
         registerGet("/books/book_info", this::bookDetailsHandler);
         registerGet("/employee", this::employeesHandler);
-        registerGet("/employee/profile", this::employeeDetailHandler);
-        registerGet("/journal", this::journalHandler);
+        registerGet("/profile", this::employeeDetailHandler);
         registerGet("/register", this::registerPageHandler);
         registerPost("/register", this::registerHandler);
         registerGet("/login", this::loginPageHandler);
         registerPost("/login", this::loginHandler);
+        registerGet("/logout", this::logoutHandler);
         registerPost("/books/issue", this::issueBookHandler);
         registerPost("/books/return", this::returnBookHandler);
     }
 
+    private void handleBookTransaction(HttpExchange exchange, boolean isReturn) {
+        Employee user = getUserFromCookie(exchange);
+        if (user == null) {
+            redirect303(exchange, "/login");
+            return;
+        }
+
+        if (isReturn || user.getCurrentBooks().size() < 2) {
+            String raw = getBody(exchange);
+            Map<String, String> parsed = FileUtil.parseUrlEncoded(raw, "&");
+            String stringBookId = parsed.get("bookId");
+            int bookId;
+            try {
+                bookId = Integer.parseInt(stringBookId);
+            } catch (NumberFormatException e) {
+                renderTemplate(exchange, isReturn ? "return_book_failed.ftlh" : "issue_book_failed.ftlh", null);
+                return;
+            }
+
+            Optional<Book> maybeBook = mainService.getBookById(bookId);
+            if (maybeBook.isEmpty()) {
+                respond404(exchange);
+                return;
+            }
+
+            Book book = maybeBook.get();
+            boolean success = isReturn ? mainService.returnBookFromEmployee(user, book) : mainService.putBookToEmployee(user, book);
+            if (!success) {
+                renderTemplate(exchange, isReturn ? "return_book_failed.ftlh" : "issue_book_failed.ftlh", null);
+                return;
+            }
+
+            Map<String, Object> dataModel = new HashMap<>();
+            dataModel.put("employee", user);
+            renderTemplate(exchange, "profile.ftlh", dataModel);
+        } else {
+            renderTemplate(exchange, "issue_book_failed.ftlh", null);
+        }
+    }
+
     private void returnBookHandler(HttpExchange exchange) {
-        String userId = getUserIdFromCookie(exchange);
-        if (userId == null) {
-            redirect303(exchange, "/login");
-            return;
-        }
-
-        Employee employee = userMap.get(userId);
-        if (employee == null) {
-            redirect303(exchange, "/login");
-            return;
-        }
-
-        Book currentBook = employee.getCurrentBooks();
-        if (currentBook == null) {
-            renderTemplate(exchange, "return_book_failed.ftlh", null);
-            return;
-        }
-
-        currentBook.setStatus(Status.FREE);
-        currentBook.setEmployeeId(0);
-        employee.setPastBooks(currentBook);
-        employee.setCurrentBooks(null);
-
-        List<Book> books = FileUtil.readBook();
-        FileUtil.writeBook(books);
-
-        renderTemplate(exchange, "return_book_success.ftlh", null);
+        handleBookTransaction(exchange, true);
     }
 
     private void issueBookHandler(HttpExchange exchange) {
-        String userId = getUserIdFromCookie(exchange);
-        if (userId == null) {
-            redirect303(exchange, "/login");
-            return;
-        }
-
-        Employee employee = userMap.get(userId);
-        if (employee == null) {
-            redirect303(exchange, "/login");
-            return;
-        }
-
-        if (employee.getCurrentBooks() != null) {
-            renderTemplate(exchange, "issue_book_failed.ftlh", null);
-            return;
-        }
-
-        Map<String, String> params = getParamsFromUri(exchange.getRequestURI().getQuery());
-        int bookId = Integer.parseInt(params.get("bookId"));
-
-        List<Book> books = FileUtil.readBook();
-        Optional<Book> optionalBook = books.stream()
-                .filter(book -> book.getId() == bookId)
-                .findFirst();
-
-        if (optionalBook.isPresent()) {
-            Book book = optionalBook.get();
-            if (book.getStatus() == Status.FREE) {
-                book.setStatus(Status.ISSUED);
-                book.setEmployeeId(employee.getId());
-                employee.setCurrentBooks(book);
-                FileUtil.writeBook(books);
-
-                renderTemplate(exchange, "issue_book_success.ftlh", null);
-                return;
-            }
-        }
-        renderTemplate(exchange, "issue_book_failed.ftlh", null);
+        handleBookTransaction(exchange, false);
     }
+
 
     private void registerHandler(HttpExchange exchange) {
         String raw = getBody(exchange);
@@ -114,24 +96,19 @@ public class BookServer extends BasicServer {
         String email = parsed.get("email");
         String password = parsed.get("password");
 
-        if (email == null || email.isEmpty() || password == null || password.isEmpty() || employeeExists(email)) {
+        boolean isExist = mainService.getEmployees().stream().anyMatch(employee -> employee.getEmail().equals(email));
+
+        if (email == null || email.isEmpty() || password == null || password.isEmpty() || isExist) {
             renderTemplate(exchange, "registration_failed.ftlh", null);
             return;
         }
 
         String firstName = parsed.get("firstName");
         String lastName = parsed.get("lastName");
+
         Employee newEmployee = new Employee(firstName, lastName, email, password);
-
-        List<Employee> employees = FileUtil.readEmployee();
-        employees.add(newEmployee);
-        FileUtil.writeEmployee(employees);
+        mainService.registerUser(newEmployee);
         redirect303(exchange, "/");
-    }
-
-    private boolean employeeExists(String email) {
-        List<Employee> employees = FileUtil.readEmployee();
-        return employees.stream().anyMatch(employee -> employee.getEmail().equals(email));
     }
 
     private void loginHandler(HttpExchange exchange) {
@@ -145,16 +122,15 @@ public class BookServer extends BasicServer {
             return;
         }
 
-        List<Employee> employees = FileUtil.readEmployee();
-        Optional<Employee> authenticatedEmployee = employees.stream()
+        Optional<Employee> authenticatedEmployee = mainService.getEmployees().stream()
                 .filter(employee -> employee.getEmail().equals(email) && employee.getPassword().equals(password))
                 .findFirst();
 
         if (authenticatedEmployee.isPresent()) {
-            String userId = "user-" + authenticatedEmployee.get().getId();
+            String userId = "" + authenticatedEmployee.get().getId();
             userMap.put(userId, authenticatedEmployee.get());
 
-            CookieServer cookie = CookieServer.make("user-id", userId);
+            CookieServer cookie = CookieServer.make("user", userId);
             cookie.setMaxAge(600);
             cookie.setHttpOnly(true);
             setCookie(exchange, cookie);
@@ -167,32 +143,80 @@ public class BookServer extends BasicServer {
         }
     }
 
-    private void loginPageHandler(HttpExchange exchange){
+    private Employee getUserFromCookie(HttpExchange exchange) {
+        String cookieString = getCookies(exchange);
+        Map<String, String> cookies = CookieServer.parse(cookieString);
+        String sessionId = cookies.get("user");
+
+        return userMap.get(sessionId);
+    }
+
+    private void logoutHandler(HttpExchange exchange) {
+        Employee user = getUserFromCookie(exchange);
+        if (user != null) {
+            userMap.remove(user.getId());
+            CookieServer cookie = CookieServer.make("user", "");
+            cookie.setMaxAge(0);
+            setCookie(exchange, cookie);
+        }
+        redirect303(exchange, "/login");
+    }
+
+    private void loginPageHandler(HttpExchange exchange) {
         renderTemplate(exchange, "login.ftlh", null);
     }
 
-    private void registerPageHandler(HttpExchange exchange){
+    private void registerPageHandler(HttpExchange exchange) {
         renderTemplate(exchange, "register.ftlh", null);
     }
 
     private void booksHandler(HttpExchange exchange) {
-        renderTemplate(exchange, "books.ftlh", mainService.getBooksDataModel());
+        var model = new BooksDataModel(FileUtil.readBook());
+        renderTemplate(exchange, "books.ftlh", model);
+    }
+
+    private void employeesHandler(HttpExchange exchange) {
+        var model = new EmployeeDataModel(FileUtil.readEmployee());
+        renderTemplate(exchange, "employee.ftlh", model);
     }
 
     private void bookDetailsHandler(HttpExchange exchange) {
-        renderTemplate(exchange, "book_info.ftlh", mainService.getBookInfoDataModel());
+        String query = exchange.getRequestURI().getQuery();
+        if (query != null && query.startsWith("id=")) {
+            try {
+                int bookId = Integer.parseInt(query.substring(3));
+                BookInfoDataModel dataModel = mainService.getBookInfoDataModel(bookId);
+                if (dataModel != null) {
+                    renderTemplate(exchange, "book_info.ftlh", dataModel);
+                    return;
+                }
+            } catch (NumberFormatException ignored) {
+            }
+        }
+        respond404(exchange);
     }
 
-    private void employeesHandler(HttpExchange exchange){
-        renderTemplate(exchange,"employee.ftlh", mainService.getEmployeeDataModel());
-    }
+    private void employeeDetailHandler(HttpExchange exchange) {
+        Employee user = getUserFromCookie(exchange);
+        if (user == null) {
+            redirect303(exchange, "/login");
+            return;
+        }
 
-    private void employeeDetailHandler(HttpExchange exchange){
-        renderTemplate(exchange, "profile.ftlh", mainService.getEmployeeInfoDataModel());
-    }
+        String query = exchange.getRequestURI().getQuery();
+        if (query != null && query.startsWith("id=")) {
+            try {
+                int employeeId = Integer.parseInt(query.substring(3));
+                EmployeeInfoDataModel dataModel = mainService.getEmployeeInfoDataModel(employeeId);
+                if (dataModel != null) {
+                    renderTemplate(exchange, "profile.ftlh", dataModel);
+                    return;
+                }
+            } catch (NumberFormatException e) {
 
-    private void journalHandler(HttpExchange exchange){
-        renderTemplate(exchange, "journal.ftlh", mainService.getJournalDataModel());
+            }
+        }
+        respond404(exchange);
     }
 
     private static Configuration initFreeMarker() {
@@ -223,20 +247,5 @@ public class BookServer extends BasicServer {
         } catch (IOException | TemplateException e) {
             e.printStackTrace();
         }
-    }
-
-    private String getUserIdFromCookie(HttpExchange exchange) {
-        String cookies = getCookies(exchange);
-        Map<String, String> parsedCookies = CookieServer.parse(cookies);
-        return parsedCookies.get("user-id");
-    }
-
-    private Map<String, String> getParamsFromUri(String query) {
-        return Arrays.stream(query.split("&"))
-                .map(param -> param.split("="))
-                .collect(Collectors.toMap(
-                        arr -> arr[0],
-                        arr -> arr.length > 1 ? arr[1] : ""
-                ));
     }
 }
