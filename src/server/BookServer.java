@@ -41,54 +41,79 @@ public class BookServer extends BasicServer {
         registerPost("/books/return", this::returnBookHandler);
     }
 
-    private void handleBookTransaction(HttpExchange exchange, boolean isReturn) {
+    private void returnBookHandler(HttpExchange exchange) {
         Employee user = getUserFromCookie(exchange);
         if (user == null) {
             redirect303(exchange, "/login");
             return;
         }
 
-        if (isReturn || user.getCurrentBooks().size() < 2) {
-            String raw = getBody(exchange);
-            Map<String, String> parsed = FileUtil.parseUrlEncoded(raw, "&");
-            String stringBookId = parsed.get("bookId");
-            int bookId;
-            try {
-                bookId = Integer.parseInt(stringBookId);
-            } catch (NumberFormatException e) {
-                renderTemplate(exchange, isReturn ? "return_book_failed.ftlh" : "issue_book_failed.ftlh", null);
-                return;
-            }
-
-            Optional<Book> maybeBook = mainService.getBookById(bookId);
-            if (maybeBook.isEmpty()) {
-                respond404(exchange);
-                return;
-            }
-
-            Book book = maybeBook.get();
-            boolean success = isReturn ? mainService.returnBookFromEmployee(user, book) : mainService.putBookToEmployee(user, book);
-            if (!success) {
-                renderTemplate(exchange, isReturn ? "return_book_failed.ftlh" : "issue_book_failed.ftlh", null);
-                return;
-            }
-
-            Map<String, Object> dataModel = new HashMap<>();
-            dataModel.put("employee", user);
-            renderTemplate(exchange, "profile.ftlh", dataModel);
-        } else {
-            renderTemplate(exchange, "issue_book_failed.ftlh", null);
+        String raw = getBody(exchange);
+        Map<String, String> parsed = FileUtil.parseUrlEncoded(raw, "&");
+        String stringBookId = parsed.get("bookId");
+        int bookId;
+        try {
+            bookId = Integer.parseInt(stringBookId);
+        } catch (NumberFormatException e) {
+            renderTemplate(exchange, "return_book_failed.ftlh", null);
+            return;
         }
-    }
 
-    private void returnBookHandler(HttpExchange exchange) {
-        handleBookTransaction(exchange, true);
+        Optional<Book> maybeBook = mainService.getBookById(bookId);
+        if (maybeBook.isEmpty()) {
+            respond404(exchange);
+            return;
+        }
+
+        Book book = maybeBook.get();
+        if (!mainService.returnBookFromEmployee(user, book)) {
+            renderTemplate(exchange, "return_book_failed.ftlh", null);
+            return;
+        }
+
+        Map<String, Object> dataModel = new HashMap<>();
+        dataModel.put("employee", user);
+        renderTemplate(exchange, "profile.ftlh", dataModel);
     }
 
     private void issueBookHandler(HttpExchange exchange) {
-        handleBookTransaction(exchange, false);
-    }
+        Employee user = getUserFromCookie(exchange);
+        if (user == null) {
+            redirect303(exchange, "/login");
+            return;
+        }
 
+        if (user.getCurrentBooks().size() >= 2) {
+            renderTemplate(exchange, "issue_book_failed.ftlh", null);
+            return;
+        }
+
+        String raw = getBody(exchange);
+        Map<String, String> parsed = FileUtil.parseUrlEncoded(raw, "&");
+        String stringBookId = parsed.get("bookId");
+        int bookId;
+        try {
+            bookId = Integer.parseInt(stringBookId);
+        } catch (NumberFormatException e) {
+            renderTemplate(exchange, "issue_book_failed.ftlh", null);
+            return;
+        }
+
+        Optional<Book> maybeBook = mainService.getBookById(bookId);
+        if (maybeBook.isEmpty()) {
+            respond404(exchange);
+            return;
+        }
+
+        Book book = maybeBook.get();
+        if (!mainService.putBookToEmployee(user, book)) {
+            renderTemplate(exchange, "issue_book_failed.ftlh", null);
+            return;
+        }
+        Map<String, Object> dataModel = new HashMap<>();
+        dataModel.put("employee", user);
+        renderTemplate(exchange, "profile.ftlh", dataModel);
+    }
 
     private void registerHandler(HttpExchange exchange) {
         String raw = getBody(exchange);
