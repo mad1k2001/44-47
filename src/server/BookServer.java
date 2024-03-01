@@ -36,6 +36,7 @@ public class BookServer extends BasicServer {
         registerPost("/register", this::registerHandler);
         registerGet("/login", this::loginPageHandler);
         registerPost("/login", this::loginHandler);
+        registerGet("/logout", this::logoutHandler);
         registerPost("/books/issue", this::issueBookHandler);
         registerPost("/books/return", this::returnBookHandler);
     }
@@ -174,6 +175,18 @@ public class BookServer extends BasicServer {
 
         return userMap.get(sessionId);
     }
+
+    private void logoutHandler(HttpExchange exchange) {
+        Employee user = getUserFromCookie(exchange);
+        if (user != null) {
+            userMap.remove(user.getId());
+            CookieServer cookie = CookieServer.make("user", "");
+            cookie.setMaxAge(0);
+            setCookie(exchange, cookie);
+        }
+        redirect303(exchange, "/login");
+    }
+
 
     private void loginPageHandler(HttpExchange exchange) {
         renderTemplate(exchange, "login.ftlh", null);
